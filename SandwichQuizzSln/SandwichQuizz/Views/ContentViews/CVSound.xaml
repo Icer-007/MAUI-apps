@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SandwichQuizz.Views.ContentViews.CVSound">
+    <HorizontalStackLayout
+        Spacing="5">
+
+        <Image Grid.Column="1"
+            x:Name="mute"
+            Source="sound_mute.png"
+            Aspect="AspectFit">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="SoundIconsTapped" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Switch
+            x:Name="soundSwitch"
+            ThumbColor="Violet"
+            OffColor="Transparent"
+            OnColor="Transparent"
+            IsToggled="{Binding IsSoundEnabled}"
+            MinimumWidthRequest="0"
+            WidthRequest="40" />
+
+        <Image Grid.Column="1"
+            x:Name="unmute"
+            Source="sound_unmute.png"
+            Aspect="AspectFit">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="SoundIconsTapped" />
+            </Image.GestureRecognizers>
+        </Image>
+    </HorizontalStackLayout>
+</ContentView>

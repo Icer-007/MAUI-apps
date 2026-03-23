@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:enum="clr-namespace:SandwichQuizz.Enums"
+             xmlns:conv="clr-namespace:SandwichQuizz.Views.Converters"
+             xmlns:cv="clr-namespace:SandwichQuizz.Views.ContentViews"
+             xmlns:ctrl="clr-namespace:SandwichQuizz.Views.Controls"
+             xmlns:vm="clr-namespace:SandwichQuizz.ViewModels"
+             xmlns:vmr="clr-namespace:SandwichQuizz.ViewModels.Rounds"
+             x:DataType="vm:SetViewModel"
+             x:Class="SandwichQuizz.Views.ContentViews.CVSet">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <conv:AnswerStatusToColorConverter x:Key="AnswerStatusToColorConverter" />
+            <conv:ResIdToMediaSourceConverter x:Key="ResIdToMediaSourceConverter" />
+            <toolkit:VariableMultiValueConverter x:Key="ManyOrBooleanToOneConverter" ConditionType="Any" />
+
+            <Style x:Key="ImageScaler" TargetType="Image">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal" />
+                            <VisualState Name="Focused" />
+                            <VisualState Name="Disabled" />
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1.1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SetButton" TargetType="ImageButton">
+                <Setter Property="MinimumHeightRequest" Value="0" />
+                <Setter Property="MinimumWidthRequest" Value="0" />
+                <Setter Property="HeightRequest" Value="60" />
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="CornerRadius" Value="35" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal" />
+                            <VisualState Name="Focused">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1.2" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1.2" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Grid RowDefinitions="auto,*">
+        <!-- Loading round buttons -->
+        <Grid ColumnDefinitions="*,*,*">
+            <toolkit:MediaElement
+                x:Name="MediaPlayer"
+                Source="{Binding Sound.Jingle, Converter={StaticResource ResIdToMediaSourceConverter}, Mode=OneWay}"
+                ShouldAutoPlay="True"
+                IsVisible="Hidden" />
+            <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
+                <ImageButton
+                    Source="image_set01.png"
+                    Style="{StaticResource SetButton}"
+                    Command="{Binding CommandLoadSet}"
+                    CommandParameter="{x:Static enum:Round.Round1}" />
+                <ImageButton Grid.Column="1"
+                    Source="image_set02.png"
+                    Style="{StaticResource SetButton}"
+                    Command="{Binding CommandLoadSet}"
+                    CommandParameter="{x:Static enum:Round.Round2}" />
+
+                <ImageButton Grid.Row="1"
+                    Source="image_set03.png"
+                    Style="{StaticResource SetButton}"
+                    Command="{Binding CommandLoadSet}"
+                    CommandParameter="{x:Static enum:Round.Round3}" />
+                <ImageButton Grid.Row="1" Grid.Column="1"
+                    Source="image_set04.png"
+                    Style="{StaticResource SetButton}"
+                    Command="{Binding CommandLoadSet}"
+                    CommandParameter="{x:Static enum:Round.Round4}" />
+
+                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                    <ImageButton
+                        Source="image_set05.png"
+                        Style="{StaticResource SetButton}"
+                        Command="{Binding CommandLoadSet}"
+                    CommandParameter="{x:Static enum:Round.Round5}" />
+                </Grid>
+            </Grid>
+
+            <!-- Show response -->
+            <Image Grid.Column="1"
+                Source="logo_spoutnik_red.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                Style="{StaticResource ImageScaler}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CurrentRound.CommandShowResponse}" NumberOfTapsRequired="1" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <!-- General commands -->
+            <Grid Grid.Column="2"
+                ColumnDefinitions="*,*"
+                BindingContext="{Binding CurrentRound}"
+                x:DataType="vmr:RoundViewModelBase">
+                <!--  Sound control -->
+                <cv:CVSound
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    BindingContext="{Binding Sound}" />
+
+                <!-- Reactions -->
+                <HorizontalStackLayout Grid.Column="1"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    Spacing="5">
+                    <ImageButton
+                        Source="reaction_right.png"
+                        Style="{StaticResource SetButton}"
+                        HeightRequest="20"
+                        Command="{Binding Sound.CommandPlay}"
+                        CommandParameter="{x:Static enum:ReactionSound.Right}" />
+
+                    <ImageButton
+                        Source="reaction_wrong.png"
+                        Style="{StaticResource SetButton}"
+                        HeightRequest="20"
+                        Command="{Binding Sound.CommandPlay}"
+                        CommandParameter="{x:Static enum:ReactionSound.Wrong}" />
+
+                    <ImageButton
+                        Source="reaction_kidding.png"
+                        Style="{StaticResource SetButton}"
+                        HeightRequest="20"
+                        Command="{Binding Sound.CommandPlay}"
+                        CommandParameter="{x:Static enum:ReactionSound.Kidding}" />
+                </HorizontalStackLayout>
+
+                <!-- Countdown -->
+                <Grid
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    HeightRequest="60"
+                    WidthRequest="60">
+                    <Image Source="chrono_inactive.png" Aspect="AspectFit">
+                        <Image.IsVisible>
+                            <MultiBinding Converter="{StaticResource ManyOrBooleanToOneConverter}">
+                                <Binding Path="CanManuallyStartTimer" />
+                                <Binding Path="Timer.IsRunning" />
+                            </MultiBinding>
+                        </Image.IsVisible>
+                    </Image>
+                    <ctrl:CircularProgressBar
+                        IsVisible="{Binding Timer.IsRunning}"
+                        PercentageProgress="{Binding Timer.PercentageProgression}"
+                        DisplayType="CustomContent"
+                        ActiveColor="GreenYellow"
+                        InactiveColor="DarkOrange">
+                        <Image Source="chrono.png" Aspect="AspectFit" />
+                    </ctrl:CircularProgressBar>
+                    <Grid>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CommandManualTimer}" NumberOfTapsRequired="1" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Grid>
+
+                <!-- Forward and backward arrows -->
+                <Grid Grid.Column="1"
+                    ColumnDefinitions="*,10,*"
+                    HorizontalOptions="End"
+                    VerticalOptions="End">
+                    <ImageButton
+                        Source="arrow_backward.png"
+                        Style="{StaticResource SetButton}"
+                        Command="{Binding CommandBackward}" />
+                    <ImageButton Grid.Column="2"
+                        Style="{StaticResource SetButton}"
+                        Source="arrow_forward.png"
+                        Command="{Binding CommandForward}" />
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- Display questions -->
+        <Border Grid.Row="1"
+            BindingContext="{Binding CurrentRound.CurrentQuestion}"
+            x:DataType="vm:QuestionViewModel"
+            Stroke="LightYellow"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 25"
+            Background="LightYellow">
+            <Grid>
+                <Grid RowDefinitions="auto,*,9*" Padding="20">
+                    <Label
+                        Text="{Binding Question}"
+                        TextColor="{x:Static conv:AnswerStatusToColorConverter.NeutralColor}"
+                        FontSize="40"
+                        HorizontalOptions="Center" />
+
+                    <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Answers}"
+                        HorizontalOptions="Center">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:AnswerViewModel">
+                                <Label
+                                    Text="{Binding Answer}"
+                                    TextColor="{Binding Status, Converter={StaticResource AnswerStatusToColorConverter}}"
+                                    FontSize="40">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CommandSelectMe}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

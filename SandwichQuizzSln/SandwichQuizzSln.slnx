@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="MauiCommons/MauiCommons.csproj" Id="e94dd657-6bce-4b65-a121-20b40963bb6b" />
+  <Project Path="SandwichQuizz/SandwichQuizz.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

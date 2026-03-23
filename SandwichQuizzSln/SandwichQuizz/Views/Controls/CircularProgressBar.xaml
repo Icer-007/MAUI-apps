@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:SandwichQuizz.Views.Converters"
+             xmlns:ctrl="clr-namespace:SandwichQuizz.Views.Controls"
+             x:Class="SandwichQuizz.Views.Controls.CircularProgressBar">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <conv:EqualityToBooleanConverter x:Key="EqualityToBooleanConverter" />
+            <conv:PercentageToPieClipFromTopPathGeometryConverter x:Key="PercentageToPathGeometryConverter" SweepDirection="CounterClockwise" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <Grid>
+                <!-- Progress ring -->
+                <GraphicsView x:Name="ProgressRing"
+                    IsVisible="{TemplateBinding DisplayType,
+                                    Converter={StaticResource EqualityToBooleanConverter},
+                                    ConverterParameter={x:Static ctrl:CircularProgressBar+ProgressDisplay.Ring}}" />
+
+                <!-- Progress disk -->
+                <GraphicsView x:Name="ProgressDisk"
+                    IsVisible="{TemplateBinding DisplayType,
+                                    Converter={StaticResource EqualityToBooleanConverter},
+                                    ConverterParameter={x:Static ctrl:CircularProgressBar+ProgressDisplay.Disk}}" />
+
+                <!-- Progress custom content -->
+                <ContentPresenter x:Name="ProgressCustomContent"
+                    IsVisible="{TemplateBinding DisplayType,
+                                    Converter={StaticResource EqualityToBooleanConverter},
+                                    ConverterParameter={x:Static ctrl:CircularProgressBar+ProgressDisplay.CustomContent}}"
+                    Clip="{TemplateBinding PercentageProgress,
+                            Converter={StaticResource PercentageToPathGeometryConverter},
+                            ConverterParameter={x:Reference ProgressCustomContent}}"
+                    BackgroundColor="Transparent" />
+            </Grid>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:SandwichQuizz.Views.Converters"
+             xmlns:vm="clr-namespace:SandwichQuizz.ViewModels"
+             x:DataType="vm:SetPropertiesViewModel"
+             x:Class="SandwichQuizz.Views.ContentViews.CVSetProperties">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <conv:BooleanToObjectConverter x:Key="BooleanToVisibilityConverter"
+                TrueValue="True"
+                FalseValue="False" />
+            <conv:BooleanToObjectConverter x:Key="InverseBooleanToVisibilityConverter"
+                TrueValue="False"
+                FalseValue="True" />
+
+            <Style x:Key="BulletBorder" TargetType="Border">
+                <Setter Property="Background" Value="GreenYellow" />
+                <Setter Property="WidthRequest" Value="10" />
+                <Setter Property="HeightRequest" Value="10" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 25" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Grid ColumnDefinitions="*,*">
+        <CollectionView Grid.ColumnSpan="2"
+            ItemsSource="{Binding SetPoints}"
+            ItemsLayout="HorizontalList"
+            HorizontalOptions="Center">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:Boolean">
+                    <Grid RowDefinitions="*,*">
+                        <Border
+                            IsVisible="{Binding ., Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Background="GreenYellow"
+                            WidthRequest="10"
+                            HeightRequest="10"
+                            StrokeShape="RoundRectangle 25" />
+                        <Border Grid.Row="1"
+                            IsVisible="{Binding ., Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                            Style="{StaticResource BulletBorder}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border
+            Style="{StaticResource ShadowingBorder}">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CommandDecreasePoints}" NumberOfTapsRequired="1" />
+            </Border.GestureRecognizers>
+        </Border>
+        <Border Grid.Column="1"
+            Style="{StaticResource ShadowingBorder}">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CommandIncreasePoints}" NumberOfTapsRequired="1" />
+            </Border.GestureRecognizers>
+        </Border>
+    </Grid>
+</ContentView>

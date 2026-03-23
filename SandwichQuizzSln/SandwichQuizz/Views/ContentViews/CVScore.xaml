@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:conv="clr-namespace:SandwichQuizz.Views.Converters"
+             xmlns:vm="clr-namespace:SandwichQuizz.ViewModels"
+             x:DataType="vm:ScoreViewModel"
+             x:Name="this"
+             x:Class="SandwichQuizz.Views.ContentViews.CVScore">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ColorBrushSelected">WhiteSmoke</SolidColorBrush>
+            <SolidColorBrush x:Key="ColorBrushUnselected">Transparent</SolidColorBrush>
+
+            <toolkit:BoolToObjectConverter x:Key="BoolToSelectedColorConverter"
+                TrueObject="{StaticResource ColorBrushSelected}"
+                FalseObject="{StaticResource ColorBrushUnselected}" />
+
+            <conv:TeamToColorConverter x:Key="TeamToColorConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Border
+        Stroke="{Binding IsSelected, Converter={StaticResource BoolToSelectedColorConverter}}"
+        StrokeThickness="20"
+        StrokeShape="RoundRectangle 25"
+        Background="{Binding Team, Converter={StaticResource TeamToColorConverter}}">
+        <Grid RowDefinitions="*,*">
+            <Label
+                Grid.RowSpan="2"
+                Text="{Binding Score, StringFormat='{0:D2}'}"
+                FontSize="150"
+                FontFamily="Merienda-Regular"
+                TextColor="White"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                VerticalOptions="Center" />
+
+            <Border
+                Stroke="Transparent"
+                Background="Transparent">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CommandAddScore}" CommandParameter="true" NumberOfTapsRequired="1" />
+                </Border.GestureRecognizers>
+            </Border>
+            <Border Grid.Row="1"
+                Stroke="Transparent"
+                Background="Transparent">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CommandAddScore}" CommandParameter="false" NumberOfTapsRequired="1" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </Border>
+</ContentView>

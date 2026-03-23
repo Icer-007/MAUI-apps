@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrl="clr-namespace:SandwichQuizz.Views.Controls"
+             xmlns:cv="clr-namespace:SandwichQuizz.Views.ContentViews"
+             xmlns:conv="clr-namespace:SandwichQuizz.Views.Converters"
+             xmlns:vm="clr-namespace:SandwichQuizz.ViewModels"
+             x:DataType="vm:MainViewModel"
+             x:Class="SandwichQuizz.Views.CVMain">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <conv:TeamToColorConverter x:Key="TeamToColorConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Border
+        Stroke="{Binding SelectedTeam, Converter={StaticResource TeamToColorConverter}}"
+        Margin="0"
+        StrokeThickness="30"
+        Padding="10"
+        StrokeShape="RoundRectangle 55">
+        <Border.GestureRecognizers>
+            <DropGestureRecognizer Drop="BorderDrop" />
+        </Border.GestureRecognizers>
+        <Grid
+            ColumnDefinitions="auto,*,auto">
+            <ctrl:CommandContainer x:Name="DropFileCommandContainer" Command="{Binding Set.CommandLoadSet}" />
+
+            <!-- shorcuts -->
+            <ctrl:ShortcutLabel
+                IsVisible="Hidden"
+                Command="{Binding CommandKey}"
+                AvailableShortcuts="{Binding Shortcuts}" />
+
+            <!-- scores : left -->
+            <Grid
+                RowDefinitions="*,auto">
+                <Border
+                    Style="{StaticResource ShadowingBorder}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CommandSelectTeam}" CommandParameter="{Binding ScoreA}" NumberOfTapsRequired="1" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <cv:CVScore Grid.Row="1"
+                    Margin="3"
+                    BindingContext="{Binding ScoreA}"
+                    HorizontalOptions="Fill" />
+            </Grid>
+
+            <!-- scores : right -->
+            <Grid Grid.Column="2"
+                RowDefinitions="*,auto">
+                <Border
+                    Style="{StaticResource ShadowingBorder}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CommandSelectTeam}" CommandParameter="{Binding ScoreB}" NumberOfTapsRequired="1" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <cv:CVScore Grid.Row="1"
+                    Margin="3"
+                    BindingContext="{Binding ScoreB}"
+                    HorizontalOptions="Fill" />
+            </Grid>
+
+            <!-- set -->
+            <Grid Grid.Column="1"
+                RowDefinitions="*,auto">
+                <cv:CVSet
+                    x:Name="SetView"
+                    BindingContext="{Binding Set}" />
+
+                <cv:CVSetProperties Grid.Row="1"
+                    BindingContext="{Binding SetProperties}"
+                    VerticalOptions="End" />
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>
