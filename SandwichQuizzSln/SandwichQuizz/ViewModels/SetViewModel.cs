@@ -12,9 +12,7 @@ namespace SandwichQuizz.ViewModels;
 
 public partial class SetViewModel : ViewModelBase
 {
-    private const string ROUND2_IDENTIFIER = "sel";
-
-    private const string ROUND3_THEME_FORMAT__THEME = "Menu  -  {0}";
+    private const string ROUND2_IDENTIFIER = " ou ";
 
     private readonly IViewModelFactory viewModelFactory;
 
@@ -86,11 +84,9 @@ public partial class SetViewModel : ViewModelBase
                 // round 3 without displaying questions
                 res = [.. reading.Single()
                                  .Item2
-                                 .Select(a => this.viewModelFactory.GetQuestionViewModel(string.Format(ROUND3_THEME_FORMAT__THEME, a),
-                                                                                         [],
-                                                                                         Round.Round3))
+                                 .Select(a => this.viewModelFactory.GetQuestionViewModel(a, [], Round.Round3))
                                  .Prepend(this.viewModelFactory.GetQuestionViewModel(reading.Single().Item1,
-                                                                                     reading.Single().Item2.Select(a => string.Format(ROUND3_THEME_FORMAT__THEME, a)),
+                                                                                     reading.Single().Item2,
                                                                                      Round.Round3))];
             }
             else if (reading.First().Item2.Count == 0)
@@ -98,11 +94,9 @@ public partial class SetViewModel : ViewModelBase
                 // One title plus questions with theirs answers, it's a round name + a set of themes
                 // with theirs quesstions. That means round 3 with displaying questions
                 res = [.. reading.Skip(1)
-                                 .SelectMany(q => q.Item2.Select(r => this.viewModelFactory.GetQuestionViewModel(string.Format(ROUND3_THEME_FORMAT__THEME, q.Item1),
-                                                                                                                 [r],
-                                                                                                                 Round.Round3)))
+                                 .SelectMany(q => q.Item2.Select(r => this.viewModelFactory.GetQuestionViewModel(q.Item1, [r], Round.Round3)))
                                  .Prepend(this.viewModelFactory.GetQuestionViewModel(reading.First().Item1,
-                                                                                     reading.Skip(1).Select(q => string.Format(ROUND3_THEME_FORMAT__THEME, q.Item1)),
+                                                                                     reading.Skip(1).Select(q => q.Item1),
                                                                                      Round.Round3))];
             }
             else

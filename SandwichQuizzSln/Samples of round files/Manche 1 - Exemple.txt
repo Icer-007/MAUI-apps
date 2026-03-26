@@ -1,0 +1,37 @@
+Question 1 ?
+-mauvaise réponse 1
+-mauvaise réponse 2
+->bonne réponse 1
+-mauvaise réponse 3
+
+Question 2 ?
+-mauvaise réponse 1
+->bonne réponse 1
+-mauvaise réponse 2
+
+
+
+
+
+
+Question 3 ?
+mauvaise réponse 1
+-mauvaise réponse 2
+mauvaise réponse 3
+->bonne réponse 1
+
+
+Question 4 ?
+->bonne réponse 1
+-mauvaise réponse 1
+->bonne réponse 2
+-mauvaise réponse 2
+
+
+Question 5 ?
+->bonne réponse 1
+->bonne réponse 2
+->bonne réponse 3
+->bonne réponse 4
+
+
