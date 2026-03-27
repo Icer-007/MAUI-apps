@@ -181,7 +181,7 @@ Les raccourcis clavier disponibles sont :
 
 Un bouton discret se trouve en haut à gauche de l'interface principale, au dessus de l'arrondi de la bordure. Un double clic sur cette zone ouvre une nouvelle fenêtre qui est la copie de la fenêtre principale.
 
-<img width="136" height="161" alt="image" src="https://github.com/user-attachments/assets/a9311036-245f-49ed-b8ef-7bda1c850921" />
+<img width="179" height="149" alt="image" src="https://github.com/user-attachments/assets/0f43091c-4488-403d-a8fa-d73576d8e30d" />
 
 Cela permet de projeter la fenêtre principale tandis que l'opérateur effectue toutes ses actions sur la fenêtre secondaire.
 Ainsi, le public ne voit pas de souris à l'écran. Le public ne verra pas non plus le signalement des zones de clic au moment de leur survol.
