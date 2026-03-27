@@ -316,7 +316,7 @@ Remarque : Si le fichier ne contient **qu'un seul bloc** *"questions et ses rép
 
 Le fichier doit être constitué de 2 lignes, séparées par une (ou plusieurs) ligne vide.
 
-La première ligne contient le titre de la manche, la seconde contient le thème. Elle seront affichées telle quelle à l'écran.
+La première ligne contient le titre de la manche, la seconde contient le thème. Elle seront affichées telles quelles à l'écran.
 
 **Attention** : Pour être identifié comme un fichier de manche 2, la première ligne (titre de la manche) doit contenir le texte *" ou "*, **avec les espaces** (que ce soit en majuscules ou en minuscules)
 
@@ -378,7 +378,7 @@ Thème - Thème 4
 
 Le fichier doit être constitué de 2 lignes, séparées par une (ou plusieurs) ligne vide.
 
-La première ligne contient le titre de la manche, la seconde contient le thème. Elle seront affichées telle quelle à l'écran.
+La première ligne contient le titre de la manche, la seconde contient le thème. Elle seront affichées telles quelles à l'écran.
 
 **Attention** : si la première ligne (titre de la manche) contient le texte *" ou "*, **avec les espaces** (que ce soit en majuscules ou en minuscules),
 le fichier sera identifié comme étant un fichier de manche 2.
