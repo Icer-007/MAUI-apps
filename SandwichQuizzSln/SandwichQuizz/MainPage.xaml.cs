@@ -1,4 +1,5 @@
 ﻿using SandwichQuizz.Extensions;
+using SandwichQuizz.Interfaces.Services;
 using SandwichQuizz.ViewModels;
 using SandwichQuizz.Views;
 
@@ -6,21 +7,23 @@ namespace SandwichQuizz;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(MainViewModel viewModel)
+    private readonly IWindowService windowService;
+
+    public MainPage(IWindowService windowService, MainViewModel viewModel)
     {
+        this.windowService = windowService;
         this.BindingContext = viewModel;
+
         this.InitializeComponent();
     }
 
-    private void BorderDoubleTapped(object sender, TappedEventArgs e)
-    {
-        Window? commandWindow = new Window(new PGCommandPopup { BindingContext = this.BindingContext });
-
-        Application.Current?.OpenWindow(commandWindow);
-    }
-
-    private void GridDoubleTapped(object sender, TappedEventArgs e)
+    private void BackgroundGridDoubleTapped(object sender, TappedEventArgs e)
     {
         this.ToggleFullscreen();
+    }
+
+    private void MirrorModeBorderDoubleTapped(object sender, TappedEventArgs e)
+    {
+        this.windowService.ShowWindow<PGCommandPopup>();
     }
 }

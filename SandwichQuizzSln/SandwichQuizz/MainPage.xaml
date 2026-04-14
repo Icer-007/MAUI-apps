@@ -22,7 +22,7 @@
     </Shell.TitleView>
     <Grid>
         <Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="GridDoubleTapped" NumberOfTapsRequired="2" />
+            <TapGestureRecognizer Tapped="BackgroundGridDoubleTapped" NumberOfTapsRequired="2" />
         </Grid.GestureRecognizers>
         <views:CVMain />
         <Border Style="{StaticResource ShadowingBorder}"
@@ -31,7 +31,7 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Start">
             <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="BorderDoubleTapped" NumberOfTapsRequired="2" />
+                <TapGestureRecognizer Tapped="MirrorModeBorderDoubleTapped" NumberOfTapsRequired="2" />
             </Border.GestureRecognizers>
         </Border>
     </Grid>

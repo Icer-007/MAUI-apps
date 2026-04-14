@@ -8,6 +8,7 @@ using SandwichQuizz.Interfaces.ViewModels;
 using SandwichQuizz.Services;
 using SandwichQuizz.Utils;
 using SandwichQuizz.ViewModels;
+using SandwichQuizz.Views;
 
 namespace SandwichQuizz;
 
@@ -33,11 +34,15 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
         builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<PGCommandPopup>();
 
         builder.Services.AddSingleton<ILoggerService, LoggerService>();
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<IWindowService, WindowService>();
+
         builder.Services.AddSingleton<ITimerViewModel, TimerViewModel>();
         builder.Services.AddSingleton<ISoundViewModel, SoundViewModel>();
+
         builder.Services.AddSingleton<IViewModelFactory, ViewModelFactory>();
 
         builder.Services.AddSingleton<IBaseInjection, BaseInjection>();
